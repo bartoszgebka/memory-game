@@ -1,0 +1,17 @@
+{
+  "name": "memory-game",
+  "version": "1.0.0",
+  "author": "Bartosz Gębka",
+  "scripts": {
+    "start": "parcel src/index.html",
+    "format": "prettier --ignore-path .gitignore --write .",
+    "lint": "eslint src/js",
+    "build": "parcel build src/index.html && npm run format && npm run lint"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.8.3",
+    "parcel": "^2.8.3",
+    "prettier": "^2.8.3",
+    "eslint": "^8.32.0"
+  }
+}
