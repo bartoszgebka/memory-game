@@ -8,13 +8,13 @@
   align-items: center;
   font-family: Poppins, sans-serif;
   color: v.$text-color;
+  flex-wrap: wrap;
 
   @media only screen and (min-width: bp.$medium) {
     margin-bottom: v.$gap-lg;
   }
 
-  .btn-start,
-  .btn-play-again {
+  .btn-start{
     border-radius: v.$btn-radius;
     border: none;
     font-weight: 600;
@@ -22,9 +22,11 @@
     padding: 0.4rem 2rem;
     cursor: pointer;
     color: v.$btn-text-color;
+    background-color: v.$bg-btn-start;
 
     &:disabled {
       color: rgba(v.$btn-text-color, 0.7);
+      background-color: rgba(v.$bg-btn-start, 0.4);
     }
 
     @media only screen and (min-width: 500px) {
@@ -33,25 +35,10 @@
     }
   }
 
-  .btn-start {
-    background-color: v.$bg-btn-start;
-
-    &:disabled {
-      background-color: rgba(v.$bg-btn-start, 0.4);
-    }
-  }
-
-  .btn-play-again {
-    background-color: v.$bg-btn-play-again;
-
-    &:disabled {
-      background-color: rgba(v.$bg-btn-play-again, 0.4);
-    }
-  }
-
   .stats {
     font-size: 1rem;
     line-height: 1.5rem;
+    flex-grow: 1;
 
     @media only screen and (min-width: 500px) {
       font-size: 1.5rem;

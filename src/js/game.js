@@ -5,11 +5,11 @@ export class Game {
   // DOM elements
   #gridEL = document.querySelector(".grid");
   #btnStartEl = document.querySelector(".btn-start");
-  #btnPlayAgainEl = document.querySelector(".btn-play-again");
   #movesEl = document.querySelector(".stats__moves");
   #timerEl = document.querySelector(".stats__timer");
 
   #isStarted = false;
+  #isFirstGame = true;
   #totalMoves = 0;
   #totalTime = 0;
   #interval;
@@ -19,9 +19,21 @@ export class Game {
     this.#initCards(images);
     this.#attachEventListeners();
   }
+
   #initCards(images) {
     this.#createCards(images);
     this.#shuffleAndRenderCards();
+  }
+
+  #createCards(images) {
+    this.#cards = [];
+    for (const [name, url] of Object.entries(images)) {
+      this.#cards = [
+        new Card({ name, url }),
+        new Card({ name, url }),
+        ...this.#cards,
+      ];
+    }
   }
 
   #shuffleAndRenderCards() {
@@ -42,18 +54,7 @@ export class Game {
         this.#gridEL.append(el);
       });
   }
-
-  #createCards(images) {
-    this.#cards = [];
-    for (const [name, url] of Object.entries(images)) {
-      this.#cards = [
-        new Card({ name, url }),
-        new Card({ name, url }),
-        ...this.#cards,
-      ];
-    }
-  }
-
+  
   #attachEventListeners() {
     this.#gridEL.addEventListener("click", (e) => {
       const cardEl = e.target.closest(".card");
@@ -63,15 +64,12 @@ export class Game {
       }
     });
 
-    this.#btnStartEl.addEventListener("click", this.#startGame.bind(this));
-    this.#btnPlayAgainEl.addEventListener("click", this.#playAgain.bind(this));
+    this.#btnStartEl.addEventListener("click", this.#startClick.bind(this));
   }
 
   #flipCard(card) {
-    this.#totalMoves++;
-
     if (!this.#isStarted) {
-      if (this.#isFirstGame()) {
+      if (this.#isFirstGame) {
         this.#startGame();
       } else {
         this.#playAgain();
@@ -85,6 +83,7 @@ export class Game {
       );
 
       if (flippedAndNotMatchedCards.length < 2) {
+        this.#totalMoves++;
         card.flip();
         flippedAndNotMatchedCards.push(card);
       }
@@ -93,7 +92,7 @@ export class Game {
         if (
           flippedAndNotMatchedCards.every((c) => c.getName() === card.getName())
         ) {
-          flippedAndNotMatchedCards.forEach((c) => c.match());
+          this.#matchCards(flippedAndNotMatchedCards);
         } else {
           setTimeout(() => {
             this.#unflipCards(flippedAndNotMatchedCards);
@@ -107,26 +106,35 @@ export class Game {
     }
   }
 
-  #isFirstGame() {
-    return this.#btnPlayAgainEl.hasAttribute("hidden");
-  }
-
   #getCard(cardEl) {
     return this.#cards.find((c) => c.getElement() === cardEl);
+  }
+
+  #matchCards(flippedCards) {
+    flippedCards.forEach((c) => c.match());
   }
 
   #unflipCards(flippedCards) {
     flippedCards.forEach((c) => c.unflip());
   }
 
+  #startClick() {
+    if (this.#isFirstGame) {
+      this.#startGame();
+    } else {
+      this.#playAgain();
+    }
+  }
+
   #startGame() {
     this.#btnStartEl.setAttribute("disabled", "");
     this.#isStarted = true;
+    this.#isFirstGame = false;
     this.#setInterval();
   }
 
   #playAgain() {
-    this.#btnPlayAgainEl.setAttribute("disabled", "");
+    this.#btnStartEl.setAttribute("disabled", "");
     this.#resetStats();
     this.#resetCards();
     this.#shuffleAndRenderCards();
@@ -137,7 +145,10 @@ export class Game {
     this.#totalMoves = 0;
     this.#totalTime = 0;
     this.#isStarted = true;
-    this.#interval = null;
+  }
+
+  #resetCards() {
+    this.#cards.forEach((c) => c.reset());
   }
 
   #setInterval() {
@@ -148,15 +159,9 @@ export class Game {
     }, 1000);
   }
 
-  #resetCards() {
-    this.#cards.forEach((c) => c.reset());
-  }
-
   #endGame() {
     clearInterval(this.#interval);
     this.#isStarted = false;
-    this.#btnStartEl.setAttribute("hidden", "");
-    this.#btnPlayAgainEl.removeAttribute("hidden");
-    this.#btnPlayAgainEl.removeAttribute("disabled");
+    this.#btnStartEl.removeAttribute("disabled");
   }
 }
