@@ -1,4 +1,5 @@
 @use "variables" as v;
+@use "breakpoints" as bp;
 
 * {
   box-sizing: border-box;
@@ -14,5 +15,9 @@ body {
 .container {
   max-width: 1000px;
   margin-inline: auto;
-  padding-inline: 1.2rem;
+  padding: v.$gap-sm;
+
+  @media only screen and (min-width: bp.$medium) {
+    padding: v.$gap-lg;
+  }
 }

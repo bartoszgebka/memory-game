@@ -1,5 +1,12 @@
+@use "variables" as v;
+@use "breakpoints" as bp;
+
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1.2rem;
+  gap: v.$gap-sm;
+
+  @media only screen and (min-width: bp.$medium) {
+    gap: v.$gap-lg;
+  }
 }
