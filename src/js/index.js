@@ -1,8 +1,4 @@
-const grid = document.querySelector(".grid");
+import images from "../img/card/*.png";
+import { Game } from "./game";
 
-grid.addEventListener("click", (e) => {
-  const card = e.target.closest(".card");
-  if (card) {
-    card.classList.toggle("flip");
-  }
-});
+new Game(images);

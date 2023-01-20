@@ -13,23 +13,39 @@
     margin-bottom: v.$gap-lg;
   }
 
-  button {
-    background-color: v.$bg-btn;
+  .btn-start,
+  .btn-play-again {
     border-radius: v.$btn-radius;
     border: none;
     font-weight: 600;
     font-size: 1.2rem;
     padding: 0.4rem 2rem;
     cursor: pointer;
-    color: v.$text-color;
+    color: v.$btn-text-color;
 
     &:disabled {
-      background-color: rgba(v.$bg-btn, 0.4);
+      color: rgba(v.$btn-text-color, 0.7);
     }
 
     @media only screen and (min-width: 500px) {
       font-size: 1.8rem;
       padding: 0.8rem 2.5rem;
+    }
+  }
+
+  .btn-start {
+    background-color: v.$bg-btn-start;
+
+    &:disabled {
+      background-color: rgba(v.$bg-btn-start, 0.4);
+    }
+  }
+
+  .btn-play-again {
+    background-color: v.$bg-btn-play-again;
+
+    &:disabled {
+      background-color: rgba(v.$bg-btn-play-again, 0.4);
     }
   }
 
