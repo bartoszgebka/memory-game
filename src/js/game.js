@@ -54,7 +54,7 @@ export class Game {
         this.#gridEL.append(el);
       });
   }
-  
+
   #attachEventListeners() {
     this.#gridEL.addEventListener("click", (e) => {
       const cardEl = e.target.closest(".card");
