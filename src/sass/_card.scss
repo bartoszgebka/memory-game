@@ -57,4 +57,25 @@
   .flip &__inner {
     transform: rotateY(180deg);
   }
+
+  &.matched {
+    animation: scale 1.1s ease-out;
+    .card__front {
+      & > img {
+        opacity: .6;
+      }
+    }
+  }
+
+  @keyframes scale {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
 }
